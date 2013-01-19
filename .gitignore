@@ -14,3 +14,7 @@
 /log/*.log
 /tmp
 *.swp
+
+# zeus
+custom_plan.rb
+zeus.json
