@@ -1,0 +1,22 @@
+common: &common
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *common
+  database: battle45_development
+  username: postgres
+  password: '123'
+
+test:
+  <<: *common
+  database: battle45_test
+  username: postgres
+  password: '123'
+
+production:
+  <<: *common
+  database: battle45_production
+  username: postgres
+  password: '123'
