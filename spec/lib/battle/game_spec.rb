@@ -7,6 +7,9 @@ describe Battle::Game do
   end
 
   let(:game) { Battle::Game.new("Bob", "bob@example.com") }
+  let(:headers) do
+    { 'Accept'=>'application/json', 'Content-Type'=>'application/json' }
+  end
 
   it "stores player name" do
     expect(game.name).to eq "Bob"
@@ -17,9 +20,6 @@ describe Battle::Game do
   end
 
   describe "#register!" do
-    let(:headers) do
-      { 'Accept'=>'application/json', 'Content-Type'=>'application/json' }
-    end
     let(:response_body) { load_fixture "register" }
 
     context "when success" do
@@ -70,6 +70,29 @@ describe Battle::Game do
 
       it "raises the exception" do
         expect{game.register!}.to raise_error Battle::PlayerEmailNotSpecified
+      end
+    end
+  end
+
+  describe '#nuke' do
+    before do
+      game.stub(:id).and_return "2746"
+    end
+
+    context 'when miss' do
+      before do
+        body = "{\"id\":\"2746\",\"x\":5,\"y\":9}"
+        stub_request(:post, "http://battle.platform45.com/nuke").
+          with(body: body, headers: headers).
+          to_return(status: 200, body: load_fixture("nuke_miss"), headers: {})
+
+        unless example.metadata[:skip_nuke]
+          game.nuke(1, 2)
+        end
+      end
+
+      it 'launch the salvos', skip_nuke: true do
+        expect(game.nuke(5, 9)).to eq({ 'status' => 'miss', 'x' => 0, 'y' => 6 })
       end
     end
   end

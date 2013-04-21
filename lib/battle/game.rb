@@ -28,5 +28,14 @@ module Battle
 
       { game_id: @id, coordinates: @coords }
     end
+
+    def nuke(x, y)
+      response = RestClient.post(@nuke_url,
+                                 { id: id, x: x, y: y }.to_json,
+                                 content_type: :json,
+                                 accept: :json)
+      json = JSON.parse response
+      json
+    end
   end
 end
