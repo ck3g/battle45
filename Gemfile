@@ -11,6 +11,7 @@ gem 'anjlab-bootstrap-rails', ">= 2.2", require: 'bootstrap-rails'
 
 gem 'meta-tags', require: "meta_tags"
 gem 'simple_form'
+gem "rest-client", "~> 1.6.7"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
@@ -41,4 +42,5 @@ group :test do
   gem "database_cleaner"
   gem "shoulda"
   gem "email_spec"
+  gem "webmock"
 end
