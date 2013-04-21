@@ -19,6 +19,10 @@ describe Battle::Game do
     expect(game.email).to eq "bob@example.com"
   end
 
+  it "init the game" do
+    expect(game.status).to eq "init"
+  end
+
   describe "#register!" do
     let(:response_body) { load_fixture "register" }
 
@@ -28,20 +32,22 @@ describe Battle::Game do
         stub_request(:post, "http://battle.platform45.com/register").
           with(body: body, headers: headers).
           to_return(status: 200, body: response_body, headers: {})
-
-        game.register! unless example.metadata[:skip_register]
       end
 
-      it "returns game id and coordinates", skip_register: true do
-        expect(game.register!).to eq({ game_id: "2746", coordinates: [7, 6] })
+      it "returns game id and coordinates" do
+        expect(game.register!).to eq({ "id" => "2746", "x" => 7, "y" => 6 })
       end
 
       it "stores game id" do
-        expect(game.id).to eq "2746"
+        expect { game.register! }.to change { game.id }.to "2746"
       end
 
       it "gets last nuke coordinates" do
-        expect(game.coords).to eq [7, 6]
+        expect { game.register! }.to change { game.coords }.to [7, 6]
+      end
+
+      it "begins the game" do
+        expect { game.register! }.to change { game.status }.to "start"
       end
     end
 
@@ -55,7 +61,7 @@ describe Battle::Game do
       end
 
       it "raises the exception" do
-        expect{game.register!}.to raise_error Battle::PlayerNameNotSpecified
+        expect { game.register! }.to raise_error Battle::PlayerNameNotSpecified
       end
     end
 
@@ -69,7 +75,7 @@ describe Battle::Game do
       end
 
       it "raises the exception" do
-        expect{game.register!}.to raise_error Battle::PlayerEmailNotSpecified
+        expect { game.register! }.to raise_error Battle::PlayerEmailNotSpecified
       end
     end
   end
@@ -85,14 +91,34 @@ describe Battle::Game do
         stub_request(:post, "http://battle.platform45.com/nuke").
           with(body: body, headers: headers).
           to_return(status: 200, body: load_fixture("nuke_miss"), headers: {})
-
-        unless example.metadata[:skip_nuke]
-          game.nuke(1, 2)
-        end
       end
 
-      it 'launch the salvos', skip_nuke: true do
+      it 'launch the salvos' do
         expect(game.nuke(5, 9)).to eq({ 'status' => 'miss', 'x' => 0, 'y' => 6 })
+      end
+
+      it "don't change game status" do
+        expect { game.nuke(5, 9) }.to_not change { game.status }
+      end
+    end
+
+    context "when hit battleship" do
+      before do
+        body = "{\"id\":\"2746\",\"x\":5,\"y\":9}"
+        stub_request(:post, "http://battle.platform45.com/nuke").
+          with(body: body, headers: headers).
+          to_return(status: 200, body: load_fixture("nuke_hit_battleship"), headers: {})
+      end
+
+      it 'gets proper response' do
+        expect(game.nuke(5, 9)).to eq({ "status" => "hit",
+                                        "sunk" => "battleship",
+                                        "x" => 1,
+                                        "y" => 7 })
+      end
+
+      it "don't change game status" do
+        expect { game.nuke(5, 9) }.to_not change { game.status }
       end
     end
   end
