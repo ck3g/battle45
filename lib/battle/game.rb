@@ -1,10 +1,15 @@
 module Battle
   API_HOST = "http://battle.platform45.com"
+
   class PlayerNameNotSpecified < StandardError; end
   class PlayerEmailNotSpecified < StandardError; end
+  class GameNotStartedYetError < StandardError; end
+  class GameAlreadyFinishedError < StandardError; end
 
   class Game
     attr_reader :name, :email, :id, :coords, :status
+
+    STATUSES = %w[start victory lost]
 
     def initialize(name, email)
       @name = name
@@ -29,13 +34,28 @@ module Battle
     end
 
     def nuke(x, y)
+      raise GameNotStartedYetError if init?
+      raise GameAlreadyFinishedError if finished?
+
       response = do_request @nuke_url, { id: id, x: x, y: y }
+      victory if response["prize"].present?
+      lost if response["game_status"] == "lost"
       response
     end
 
+    def init?
+      status == "init"
+    end
+
+    def finished?
+      status == "lost" || status == "victory"
+    end
+
     private
-    def start
-      @status = "start"
+    STATUSES.each do |status|
+      define_method status do
+        @status = status
+      end
     end
 
     def do_request(url, data)
