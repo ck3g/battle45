@@ -1,4 +1,4 @@
-== Sea battle vs Platform45
+== Sea battle vs Platform45 {<img src="https://travis-ci.org/ck3g/battle45.png?branch=master" alt="Build Status" />}[https://travis-ci.org/ck3g/battle45]
 
-http://battle.platform45.com/
+http://battle.platform45.com
 
