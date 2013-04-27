@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'battle/game'
+require 'battle'
 
 describe Battle::Game do
   def load_fixture(name)
