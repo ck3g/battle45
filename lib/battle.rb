@@ -1,4 +1,5 @@
 require 'battle/game'
+require 'battle/ship'
 
 module Battle
   API_HOST = "http://battle.platform45.com"
