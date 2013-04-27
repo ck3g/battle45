@@ -46,7 +46,7 @@ describe Battle::Game do
         expect { game.register! }.to change { game.id }.to "2746"
       end
 
-      it "gets last nuke coordinates" do
+      it "sets last nuke coordinates" do
         expect { game.register! }.to change { game.coords }.to [7, 6]
       end
 
@@ -120,13 +120,26 @@ describe Battle::Game do
 
       it 'gets proper response' do
         expect(game.nuke(5, 9)).to eq({ "status" => "hit",
-                                        "sunk" => "battleship",
+                                        "sunk" => "Battleship",
                                         "x" => 1,
                                         "y" => 7 })
       end
 
-      it "don't change game status" do
-        expect { game.nuke(5, 9) }.to_not change { game.status }
+      it 'decrease ships count' do
+        expect { game.nuke(5, 9) }.to change { game.ships.count }.by(-1)
+      end
+
+      context 'when has ships on battlefield' do
+        it "don't change game status" do
+          expect { game.nuke(5, 9) }.to_not change { game.status }
+        end
+      end
+
+      context 'when it was last ship' do
+        before { game.stub(:has_ships?).and_return false }
+        it 'changes game status' do
+          expect { game.nuke(5, 9) }.to change { game.status }.to "lost"
+        end
       end
     end
 

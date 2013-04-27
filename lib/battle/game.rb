@@ -31,8 +31,11 @@ module Battle
       raise GameAlreadyFinishedError if finished?
 
       response = do_request NUKE_URL, { id: id, x: x, y: y }
+
       victory if response["prize"].present?
-      lost if response["game_status"] == "lost"
+      sink_ship response['sunk'] if response['sunk'].present?
+      lost if response["game_status"] == "lost" || !has_ships?
+
       response
     end
 
@@ -54,6 +57,18 @@ module Battle
     def do_request(url, data)
       options = { content_type: :json, accept: :json }
       JSON.parse RestClient.post(url, data.to_json, options)
+    end
+
+    def sink_ship(name)
+      ships.delete ships.find { |ship| ship.is? name }
+    end
+
+    def has_ships?
+      ships.present?
+    end
+
+    def set_coords_from_response(response)
+
     end
   end
 end
