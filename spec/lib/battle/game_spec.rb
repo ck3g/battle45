@@ -20,6 +20,10 @@ describe Battle::Game do
     expect(game.email).to eq "bob@example.com"
   end
 
+  it 'stores the ships' do
+    expect(game.ships.count).to eq 7
+  end
+
   it "init the game" do
     expect(game.status).to eq "init"
   end

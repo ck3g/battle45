@@ -1,6 +1,6 @@
 module Battle
   class Game
-    attr_reader :name, :email, :id, :coords, :status
+    attr_reader :name, :email, :id, :coords, :status, :ships
 
     STATUSES = %w[start victory lost]
 
@@ -11,6 +11,8 @@ module Battle
       @nuke_url = "#{API_HOST}/nuke"
       @coords = [0, 0]
       @status = "init"
+      @ships = []
+      Battle.ships.each { |name| @ships << Ship.new(name) }
     end
 
     def register!
