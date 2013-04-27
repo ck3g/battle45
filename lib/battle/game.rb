@@ -1,15 +1,17 @@
 module Battle
   class Game
-    attr_reader :name, :email, :id, :coords, :status, :ships
+    attr_reader :name, :email, :id, :coords, :status, :ships, :prize,
+      :response
 
-    STATUSES = %w[start victory lost]
+    STATUSES = %w[start victory defeat]
 
     def initialize(name, email)
       @name = name
       @email = email
-      @coords = [0, 0]
+      @coords = [nil, nil]
       @status = "init"
       @ships = []
+      @response = {}
       Battle.ships.each { |name| @ships << Ship.new(name) }
     end
 
@@ -17,11 +19,8 @@ module Battle
       raise PlayerNameNotSpecified if name.blank?
       raise PlayerEmailNotSpecified if email.blank?
 
-      response = do_request(REGISTER_URL, { "name" => name, "email" => email })
-      @id = response["id"]
-      @coords = [response["x"], response["y"]]
-
-      start
+      do_request REGISTER_URL, "name" => name, "email" => email
+      handle_register
 
       response
     end
@@ -30,11 +29,8 @@ module Battle
       raise GameNotStartedYetError if init?
       raise GameAlreadyFinishedError if finished?
 
-      response = do_request NUKE_URL, { id: id, x: x, y: y }
-
-      victory if response["prize"].present?
-      sink_ship response['sunk'] if response['sunk'].present?
-      lost if response["game_status"] == "lost" || !has_ships?
+      do_request NUKE_URL, id: id, x: x, y: y
+      handle_nuke
 
       response
     end
@@ -56,7 +52,7 @@ module Battle
 
     def do_request(url, data)
       options = { content_type: :json, accept: :json }
-      JSON.parse RestClient.post(url, data.to_json, options)
+      @response = JSON.parse RestClient.post(url, data.to_json, options)
     end
 
     def sink_ship(name)
@@ -67,8 +63,36 @@ module Battle
       ships.present?
     end
 
-    def set_coords_from_response(response)
+    def won?
+      response["prize"].present? || !has_ships?
+    end
 
+    def handle_nuke
+      sink_ship response['sunk'] if response['sunk'].present?
+      handle_defeat
+      handle_victory
+      assign_coordinates
+    end
+
+    def handle_victory
+      if won?
+        victory
+        @prize = response['prize']
+      end
+    end
+
+    def handle_defeat
+      defeat if response["game_status"] == "lost"
+    end
+
+    def handle_register
+      @id = response["id"]
+      assign_coordinates
+      start
+    end
+
+    def assign_coordinates
+      @coords = [response["x"], response["y"]]
     end
   end
 end

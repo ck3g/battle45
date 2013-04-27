@@ -93,6 +93,15 @@ describe Battle::Game do
       game.register!
     end
 
+    it 'changes last coordinates' do
+      body = "{\"id\":\"2746\",\"x\":5,\"y\":9}"
+      stub_request(:post, "http://battle.platform45.com/nuke").
+        with(body: body, headers: headers).
+        to_return(status: 200, body: load_fixture("nuke_miss"), headers: {})
+
+      expect { game.nuke(5, 9) }.to change { game.coords }.to [0, 6]
+    end
+
     context 'when miss' do
       before do
         body = "{\"id\":\"2746\",\"x\":5,\"y\":9}"
@@ -138,7 +147,7 @@ describe Battle::Game do
       context 'when it was last ship' do
         before { game.stub(:has_ships?).and_return false }
         it 'changes game status' do
-          expect { game.nuke(5, 9) }.to change { game.status }.to "lost"
+          expect { game.nuke(5, 9) }.to change { game.status }.to "victory"
         end
       end
     end
@@ -152,7 +161,7 @@ describe Battle::Game do
       end
 
       it "changes game status" do
-        expect { game.nuke(5, 9) }.to change { game.status }.to "lost"
+        expect { game.nuke(5, 9) }.to change { game.status }.to 'defeat'
       end
     end
 
@@ -179,6 +188,12 @@ describe Battle::Game do
 
       it "changes the game status" do
         expect { game.nuke(5, 9) }.to change { game.status }.to "victory"
+      end
+
+      it 'changes game prize' do
+        expect {
+          game.nuke(5, 9)
+        }.to change { game.prize }.to "You've got the prize!"
       end
     end
 
