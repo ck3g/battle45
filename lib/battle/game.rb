@@ -7,8 +7,6 @@ module Battle
     def initialize(name, email)
       @name = name
       @email = email
-      @register_url = "#{API_HOST}/register"
-      @nuke_url = "#{API_HOST}/nuke"
       @coords = [0, 0]
       @status = "init"
       @ships = []
@@ -19,7 +17,7 @@ module Battle
       raise PlayerNameNotSpecified if name.blank?
       raise PlayerEmailNotSpecified if email.blank?
 
-      response = do_request(@register_url, { "name" => name, "email" => email })
+      response = do_request(REGISTER_URL, { "name" => name, "email" => email })
       @id = response["id"]
       @coords = [response["x"], response["y"]]
 
@@ -32,7 +30,7 @@ module Battle
       raise GameNotStartedYetError if init?
       raise GameAlreadyFinishedError if finished?
 
-      response = do_request @nuke_url, { id: id, x: x, y: y }
+      response = do_request NUKE_URL, { id: id, x: x, y: y }
       victory if response["prize"].present?
       lost if response["game_status"] == "lost"
       response

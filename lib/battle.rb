@@ -3,6 +3,9 @@ require 'battle/ship'
 
 module Battle
   API_HOST = "http://battle.platform45.com"
+  REGISTER_URL = "#{ API_HOST }/register"
+  NUKE_URL = "#{ API_HOST }/nuke"
+
   AVAILABLE_SHIPS = [
     { name: 'Carrier', amount: 1 },
     { name: 'Battleship', amount: 1 },
