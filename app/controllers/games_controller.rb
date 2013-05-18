@@ -15,7 +15,7 @@ class GamesController < ApplicationController
 
   def create
     @user = User.from_params(params[:game])
-    @game = @user.games.new params[:game]
+    @game = @user.games.init params[:game]
     flash.notice = t(:battle_began) if @game.save
     respond_with @game
   end

@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
+gem 'activerecord-postgres-array' # TODO: getting rid after update to Rails 4
 
 gem 'pg'
 # gem "devise"
@@ -43,4 +44,6 @@ group :test do
   gem "database_cleaner"
   gem "shoulda"
   gem "email_spec"
+  gem 'vcr', '~> 2.4.0'
+  gem 'webmock'
 end

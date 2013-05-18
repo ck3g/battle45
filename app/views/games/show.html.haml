@@ -1,0 +1,8 @@
+%fieldset
+  %legend
+    = succeed ':' do
+      = t(:platform45_navy)
+  %div
+    - @game.ships_total.each do |name, count|
+      %p= "#{ name } x#{ count }"
+

@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :game do
     user
     status 'start'
+    sequence(:remote_id)
   end
 end

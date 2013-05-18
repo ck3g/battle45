@@ -11,15 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130510151054) do
+ActiveRecord::Schema.define(:version => 20130518132548) do
 
   create_table "games", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "status",     :default => "start", :null => false
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.integer      "user_id"
+    t.string       "status",     :default => "start", :null => false
+    t.datetime     "created_at",                      :null => false
+    t.datetime     "updated_at",                      :null => false
+    t.integer      "remote_id"
+    t.string_array "ships"
   end
 
+  add_index "games", ["remote_id"], :name => "index_games_on_remote_id", :unique => true
   add_index "games", ["status"], :name => "index_games_on_status"
   add_index "games", ["user_id"], :name => "index_games_on_user_id"
 
