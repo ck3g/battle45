@@ -11,6 +11,8 @@ class Nuke < ActiveRecord::Base
   def self.prepare(params)
     nuke = self.new params
     nuke.target = 'platform45'
+    return nuke unless nuke.valid?
+
     remote_game = Battle::Game.new id: nuke.game_remote_id
     remote_game.nuke params['x'], params['y']
 

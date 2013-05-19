@@ -1,4 +1,4 @@
-= simple_form_for [@game, @game.new_nuke] do |f|
+= simple_form_for [@game, @nuke || @game.new_nuke] do |f|
   = f.input :x
   = f.input :y
   = f.button :submit
