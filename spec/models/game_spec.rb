@@ -49,6 +49,10 @@ describe Game do
     it { should be_kind_of Game }
     its(:remote_id) { should eq 2186 }
     its(:ships) { should eq ships_list }
+
+    it "registers Platform45's nuke" do
+      expect { subject.save }.to change { Nuke.count }.by(1)
+    end
   end
 
   describe '#ships_total' do

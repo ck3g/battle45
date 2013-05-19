@@ -24,6 +24,9 @@ class Game < ActiveRecord::Base
     remote_game.register!
     game.remote_id = remote_game.id
     game.ships = remote_game.ships.map(&:name)
+    game.nukes.new x: remote_game.coords.first,
+                   y: remote_game.coords.last,
+                   target: 'user'
 
     game
   end
