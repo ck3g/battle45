@@ -13,7 +13,7 @@ gem 'anjlab-bootstrap-rails', ">= 2.2", require: 'bootstrap-rails'
 gem 'meta-tags', require: "meta_tags"
 gem 'simple_form'
 
-gem 'battle'
+gem 'battle', '~> 0.0.2'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
