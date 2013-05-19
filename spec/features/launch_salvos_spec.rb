@@ -12,11 +12,13 @@ feature 'Launch salvos' do
   end
 
   scenario 'launch salvos by coordinates' do
-    visit game_path(@game)
-    within("#new_nuke") do
-      fill_in 'nuke_x', with: 2
-      fill_in 'nuke_y', with: 5
-      click_button 'Fire!'
+    VCR.use_cassette 'launch_salvos' do
+      visit game_path(@game)
+      within("#new_nuke") do
+        fill_in 'nuke_x', with: 2
+        fill_in 'nuke_y', with: 5
+        click_button 'Fire!'
+      end
     end
 
     page.should have_content 'Missed'
