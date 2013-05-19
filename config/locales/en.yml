@@ -9,3 +9,13 @@ en:
   battle_began: 'The battle began'
   platform45_navy: "Platform45's Navy"
   missed: Missed
+  game:
+    messages:
+      defeat: Defeat
+  nuke:
+    messages:
+      miss: Missed
+      defeat: You have failed the victory
+      hit: Hit
+      victory: "Congratulations! You have beat Platform45's Navy"
+      sunk: "You have destroyed the '%{name}'"

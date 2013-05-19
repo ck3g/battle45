@@ -5,5 +5,6 @@ FactoryGirl.define do
     user
     status 'start'
     sequence(:remote_id)
+    ships %w[Carrier Battleship Submarine Submarine]
   end
 end

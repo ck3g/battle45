@@ -4,7 +4,7 @@ class NukesController < ApplicationController
   def create
     @nuke = @game.nukes.prepare params[:nuke]
     if @nuke.save
-      redirect_to @game, notice: t(:missed)
+      redirect_to @game, notice: notice
     else
       render 'games/show'
     end
@@ -13,5 +13,13 @@ class NukesController < ApplicationController
   private
   def find_game
     @game = Game.find params[:game_id]
+  end
+
+  def notice
+    if @nuke.sunk?
+      t("nuke.messages.sunk", name: @nuke.sunk_name)
+    else
+      t("nuke.messages.#{ @nuke.status }")
+    end
   end
 end

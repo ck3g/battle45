@@ -1,7 +1,7 @@
 class Game < ActiveRecord::Base
   STATUSES = %[start victory defeat]
 
-  attr_accessible :status, :name, :email
+  attr_accessible :status, :name, :email, :prize, :ships
 
   attr_accessor :email, :name
 
@@ -37,5 +37,24 @@ class Game < ActiveRecord::Base
 
   def new_nuke
     nukes.new
+  end
+
+  def finished?
+    status == 'victory' || status == 'defeat'
+  end
+
+  def handle_game_status(remote_game)
+    update_attributes status: 'defeat' if remote_game.status == 'defeat'
+
+    if remote_game.status == 'victory'
+      update_attributes status: 'victory', prize: remote_game.prize
+    end
+  end
+
+  def sink_the_ship(name)
+    return unless name
+
+    ships.delete_at(ships.index(name) || ships.length)
+    update_attributes ships: ships
   end
 end

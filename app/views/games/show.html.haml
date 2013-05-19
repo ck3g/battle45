@@ -1,7 +1,11 @@
-= simple_form_for [@game, @nuke || @game.new_nuke] do |f|
-  = f.input :x
-  = f.input :y
-  = f.button :submit
+- if @game.finished?
+  %p= t("game.messages.#{ @game.status }")
+
+- else
+  = simple_form_for [@game, @nuke || @game.new_nuke] do |f|
+    = f.input :x
+    = f.input :y
+    = f.button :submit
 
 
 %fieldset

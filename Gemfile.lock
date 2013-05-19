@@ -36,7 +36,7 @@ GEM
       sass (>= 3.2)
     arel (3.0.2)
     awesome_print (1.1.0)
-    battle (0.0.2)
+    battle (0.0.3)
       json (~> 1.7.7)
       rest-client (~> 1.6.7)
     bourne (1.1.2)
@@ -239,7 +239,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-postgres-array
   anjlab-bootstrap-rails (>= 2.2)
-  battle (~> 0.0.2)
+  battle (~> 0.0.3)
   capistrano
   capistrano-recipes
   capistrano_colors

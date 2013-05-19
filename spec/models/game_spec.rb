@@ -68,4 +68,64 @@ describe Game do
       })
     end
   end
+
+  describe '#handle_game_status' do
+    let!(:game) { create :game }
+    let(:remote_game) do
+      mock Battle::Game, nuke_status: nil, status: 'start', finished?: false,
+        sunk: nil
+    end
+
+    context 'when lose' do
+      before do
+        remote_game.stub(:finished?).and_return true
+        remote_game.stub(:status).and_return 'defeat'
+      end
+
+      it 'changes game status to defeat' do
+        expect {
+          game.handle_game_status remote_game
+        }.to change { game.status }.to 'defeat'
+      end
+    end
+
+    context 'when win' do
+      before do
+        remote_game.stub(:status).and_return 'victory'
+        remote_game.stub(:prize).and_return '<prize text here>'
+      end
+
+      it 'changes game status to victory' do
+        expect {
+          game.handle_game_status remote_game
+        }.to change { game.status }.to 'victory'
+      end
+
+      it 'grabs the prize' do
+        expect {
+          game.handle_game_status remote_game
+        }.to change { game.prize }.to '<prize text here>'
+      end
+    end
+  end
+
+  describe '#sink_the_ship' do
+    let!(:game) { create :game }
+
+    context 'when ship name present' do
+      it 'decreases ships count' do
+        expect {
+          game.sink_the_ship 'Submarine'
+        }.to change { game.ships }.to %w[Carrier Battleship Submarine]
+      end
+    end
+
+    context 'when ship name is blank' do
+      it 'dont changes ships' do
+        expect {
+          game.sink_the_ship nil
+        }.to_not change { game.ships }
+      end
+    end
+  end
 end
