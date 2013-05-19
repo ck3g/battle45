@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130518132548) do
+ActiveRecord::Schema.define(:version => 20130519114106) do
 
   create_table "games", :force => true do |t|
     t.integer      "user_id"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(:version => 20130518132548) do
   add_index "games", ["remote_id"], :name => "index_games_on_remote_id", :unique => true
   add_index "games", ["status"], :name => "index_games_on_status"
   add_index "games", ["user_id"], :name => "index_games_on_user_id"
+
+  create_table "nukes", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "x",          :null => false
+    t.integer  "y",          :null => false
+    t.string   "target",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "nukes", ["game_id"], :name => "index_nukes_on_game_id"
 
   create_table "users", :force => true do |t|
     t.string   "name",       :null => false

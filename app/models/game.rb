@@ -6,6 +6,7 @@ class Game < ActiveRecord::Base
   attr_accessor :email, :name
 
   belongs_to :user
+  has_many :nukes, dependent: :destroy
 
   validates :user_id, presence: true
   validates :status, inclusion: { in: STATUSES }
