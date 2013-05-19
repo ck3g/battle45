@@ -3,6 +3,8 @@ en:
     submit:
       game:
         create: 'To the battle!'
+      nuke:
+        create: 'Fire!'
   simple_form:
     "yes": 'Yes'
     "no": 'No'

@@ -5,4 +5,11 @@ class Nuke < ActiveRecord::Base
 
   validates :x, :y, presence: true
   validates :target, presence: true, inclusion: { in: %w[user platform45] }
+
+  def self.prepare(params)
+    nuke = self.new params
+    nuke.target = 'platform45'
+
+    nuke
+  end
 end

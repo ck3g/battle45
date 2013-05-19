@@ -31,4 +31,8 @@ class Game < ActiveRecord::Base
   def ships_total
     ships.inject(Hash.new(0)) { |total, ship| total[ship] += 1; total }
   end
+
+  def new_nuke
+    nukes.new
+  end
 end
