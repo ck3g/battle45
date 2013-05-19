@@ -1,1 +1,1 @@
-rvm --create use 1.9.3@battle45
+rvm --create use 2.0.0-p0@battle45
