@@ -70,15 +70,27 @@ describe Nuke do
           nuke.handle_remote_result_of remote_game
         }.to change { nuke.status }.to 'miss'
       end
+
+      it 'changes nuke state to miss' do
+        expect {
+          nuke.handle_remote_result_of remote_game
+        }.to change { nuke.state }.to 'miss'
+      end
     end
 
     context 'when hit' do
       before { remote_game.stub(:nuke_status).and_return 'hit' }
 
-      it 'change nuke status to miss' do
+      it 'change nuke status to hit' do
         expect {
           nuke.handle_remote_result_of remote_game
         }.to change { nuke.status }.to 'hit'
+      end
+
+      it 'changes nuke state to hit' do
+        expect {
+          nuke.handle_remote_result_of remote_game
+        }.to change { nuke.state }.to 'hit'
       end
     end
 

@@ -13,7 +13,7 @@
     - @bf.cells.times do |x|
       %g{transform: "translate(#{ @bf.translate_ox(x) }, 0)"}
         - @bf.cells.times do |y|
-          = cell(@game, @bf, x, y)
+          = cell(@nukes, @bf, x, y)
 
     - @bf.cells.times do |x|
       - @bf.cells.times do |y|

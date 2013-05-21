@@ -25,6 +25,7 @@ class Nuke < ActiveRecord::Base
 
   def handle_remote_result_of(remote)
     self.status = remote.finished? ? remote.status : remote.nuke_status
+    self.state = remote.nuke_status
 
     self.sunk_name = remote.sunk
     game.sink_the_ship remote.sunk

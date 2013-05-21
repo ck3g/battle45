@@ -45,7 +45,7 @@ class Battlefield
     y * cell_size + 2
   end
 
-  def cell_state(game, x, y)
-
+  def cell_state(nukes, x, y)
+    nukes && nukes.find { |nuke| nuke.x == x && nuke.y == y }.try(:state)
   end
 end

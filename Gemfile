@@ -29,6 +29,7 @@ group :development do
   gem "erb2haml"
   gem "rails_best_practices"
   gem "thin"
+  gem 'bullet'
 end
 
 group :development, :test do

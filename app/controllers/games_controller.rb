@@ -3,6 +3,7 @@ class GamesController < ApplicationController
 
   before_filter :new_game, only: [:index, :new]
   before_filter :find_game, only: [:show]
+  before_filter :find_nukes, only: [:show]
 
   def index
     @games = Game.order('created_at DESC')
@@ -29,5 +30,9 @@ class GamesController < ApplicationController
 
   def find_game
     @game = Game.find params[:id]
+  end
+
+  def find_nukes
+    @nukes = Nuke.where(game_id: @game.id).all
   end
 end
