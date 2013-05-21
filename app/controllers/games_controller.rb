@@ -5,6 +5,7 @@ class GamesController < ApplicationController
   before_filter :find_game, only: [:show]
 
   def index
+    @games = Game.order('created_at DESC')
   end
 
   def new

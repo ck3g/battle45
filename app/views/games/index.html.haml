@@ -1,1 +1,9 @@
 = render 'form', game: @game
+
+#games
+  %h2
+    = succeed ':' do
+      = t(:recent_games)
+
+  - @games.each do |game|
+    %div= link_to_recent_game(game)

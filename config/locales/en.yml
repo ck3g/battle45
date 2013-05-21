@@ -19,3 +19,9 @@ en:
       hit: Hit
       victory: "Congratulations! You have beat Platform45's Navy"
       sunk: "You have destroyed the '%{name}'"
+  recent_games: Recent games
+  game:
+    statuses:
+      start: started
+      defeat: defeat
+      victory: victory

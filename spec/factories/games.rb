@@ -6,5 +6,11 @@ FactoryGirl.define do
     status 'start'
     sequence(:remote_id)
     ships %w[Carrier Battleship Submarine Submarine]
+
+    trait :defeat do
+      status 'defeat'
+    end
+
+    factory :defeated_game, traits: [:defeat]
   end
 end
