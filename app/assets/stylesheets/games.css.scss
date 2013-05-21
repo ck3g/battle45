@@ -1,3 +1,26 @@
 // Place all the styles related to the games controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+svg.battlefield {
+  padding: 20px;
+  font-size: 9px;
+  rect.cell {
+    fill: #eee;
+
+    &:hover {
+      stroke: #555;
+      stroke-width: 1px;
+    }
+    &.selected {
+      stroke: #8cc665;
+      stroke-width: 1px;
+    }
+    &.miss {
+      fill: #8cc665;
+    }
+    &.hit {
+      fill: #c62222;
+    }
+  }
+}

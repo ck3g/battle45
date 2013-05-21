@@ -7,6 +7,19 @@
     = f.input :y
     = f.button :submit
 
+%svg.battlefield{width: "#{ @bf.width }px", height: "#{ @bf.height }px"}
+  %g{transform: "translate(#{ @bf.cell_size }, #{ @bf.cell_size })"}
+
+    - @bf.cells.times do |x|
+      %g{transform: "translate(#{ @bf.translate_ox(x) }, 0)"}
+        - @bf.cells.times do |y|
+          = cell(@game, @bf, x, y)
+
+    - @bf.cells.times do |x|
+      - @bf.cells.times do |y|
+        = horizontal_label @bf, x
+        = vertical_label @bf, y
+
 
 %fieldset
   %legend

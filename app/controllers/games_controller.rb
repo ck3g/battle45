@@ -12,6 +12,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    @bf = Battlefield.new
   end
 
   def create

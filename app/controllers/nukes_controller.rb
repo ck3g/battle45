@@ -6,6 +6,7 @@ class NukesController < ApplicationController
     if @nuke.save
       redirect_to @game, notice: notice
     else
+      @bf = Battlefield.new
       render 'games/show'
     end
   end
