@@ -1,9 +1,19 @@
-= render 'form', game: @game
+.jumbotron
+  = simple_form_for @game, html: { class: 'form-horizontal' } do |f|
+    .row
+      .span12
+        .span4.form-inputs
+          = f.input :name
+          = f.input :email
+        .span2
+          %h1= 'vs.'
+        .span4
+          %h1= "Platform45"
+      = f.button :submit, class: 'btn btn-success btn-large'
 
-#games
-  %h2
-    = succeed ':' do
-      = t(:recent_games)
-
-  - @games.each do |game|
-    %div= link_to_recent_game(game)
+  #games.row-fluid.marketing
+    %h2= t(:recent_games)
+    - @games.in_groups_of(4, false).each do |group|
+      .span12
+        - group.each do |game|
+          .span3= link_to_recent_game(game)

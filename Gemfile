@@ -8,7 +8,7 @@ gem 'pg'
 gem "haml-rails"
 gem 'jquery-rails'
 # gem "has_scope"
-gem 'anjlab-bootstrap-rails', ">= 2.2", require: 'bootstrap-rails'
+gem 'anjlab-bootstrap-rails', ">= 2.3", require: 'bootstrap-rails'
 
 gem 'meta-tags', require: "meta_tags"
 gem 'simple_form'

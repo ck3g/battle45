@@ -23,4 +23,12 @@ module GamesHelper
   def vertical_label(bf, y)
     content_tag :text, y, dx: bf.oy_label_dx, dy: bf.oy_label_dy(y)
   end
+
+  def game_status_class(game)
+    if game.status == 'defeat'
+      'alert-error'
+    else
+      'alert-success'
+    end
+  end
 end

@@ -24,3 +24,26 @@ svg.battlefield {
     }
   }
 }
+
+.form-inputs {
+  margin-left: -60px;
+}
+
+.game-status {
+  text-align: center;
+}
+
+.form-coordinates {
+  padding-top: 30px;
+
+  .control-label {
+    width: 40px;
+  }
+  .controls {
+    margin-left: 60px;
+  }
+
+  .actions {
+    margin-left: 60px;
+  }
+}

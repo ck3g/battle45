@@ -1,31 +1,45 @@
+.masthead
+  %ul.nav.nav-pills.pull-right
+    %li= link_to t(:home), root_path
+  %h3.muted= "#{ @game.user_name} vs. Platform45"
+%hr
+
 - if @game.finished?
-  %p= t("game.messages.#{ @game.status }")
+  .game-status.alert.alert-box{class: game_status_class(@game)}
+    %h2= t("game.messages.#{ @game.status }")
+    = @game.prize
 
-- else
-  = simple_form_for [@game, @nuke || @game.new_nuke] do |f|
-    = f.input :x
-    = f.input :y
-    = f.button :submit
+.row-fluid
+  .span12
+    .span4
+      - unless @game.finished?
+        = simple_form_for [@game, @nuke || @game.new_nuke], html: { class: 'form-horizontal form-coordinates' } do |f|
+          = f.input :x, input_html: { class: 'input-small' }
+          = f.input :y, input_html: { class: 'input-small' }
+          .actions
+            = f.button :submit, class: 'btn btn-danger'
 
-%svg.battlefield{width: "#{ @bf.width }px", height: "#{ @bf.height }px"}
-  %g{transform: "translate(#{ @bf.cell_size }, #{ @bf.cell_size })"}
+    .span4
+      %svg.battlefield{width: "#{ @bf.width }px", height: "#{ @bf.height }px"}
+        %g{transform: "translate(#{ @bf.cell_size }, #{ @bf.cell_size })"}
 
-    - @bf.cells.times do |x|
-      %g{transform: "translate(#{ @bf.translate_ox(x) }, 0)"}
-        - @bf.cells.times do |y|
-          = cell(@nukes, @bf, x, y)
+          - @bf.cells.times do |x|
+            %g{transform: "translate(#{ @bf.translate_ox(x) }, 0)"}
+              - @bf.cells.times do |y|
+                = cell(@nukes, @bf, x, y)
 
-    - @bf.cells.times do |x|
-      - @bf.cells.times do |y|
-        = horizontal_label @bf, x
-        = vertical_label @bf, y
+          - @bf.cells.times do |x|
+            - @bf.cells.times do |y|
+              = horizontal_label @bf, x
+              = vertical_label @bf, y
 
 
-%fieldset
-  %legend
-    = succeed ':' do
-      = t(:platform45_navy)
-  %div
-    - @game.ships_total.each do |name, count|
-      %p= "#{ name } x#{ count }"
+    .span4
+      %fieldset
+        %legend
+          = succeed ':' do
+            = t(:platform45_navy)
+        %div
+          - @game.ships_total.each do |name, count|
+            %p= "#{ name } x#{ count }"
 
