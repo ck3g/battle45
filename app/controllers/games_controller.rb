@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   before_filter :find_nukes, only: [:show]
 
   def index
-    @games = Game.order('created_at DESC')
+    @games = Game.includes(:user).order('created_at DESC')
   end
 
   def new
