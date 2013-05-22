@@ -85,6 +85,7 @@ describe Game do
       it 'changes game status to defeat' do
         expect {
           game.handle_game_status remote_game
+          game.reload
         }.to change { game.status }.to 'defeat'
       end
     end
@@ -98,12 +99,14 @@ describe Game do
       it 'changes game status to victory' do
         expect {
           game.handle_game_status remote_game
+          game.reload
         }.to change { game.status }.to 'victory'
       end
 
       it 'grabs the prize' do
         expect {
           game.handle_game_status remote_game
+          game.reload
         }.to change { game.prize }.to '<prize text here>'
       end
     end
@@ -116,6 +119,7 @@ describe Game do
       it 'decreases ships count' do
         expect {
           game.sink_the_ship 'Submarine'
+          game.reload
         }.to change { game.ships }.to %w[Carrier Battleship Submarine]
       end
     end
@@ -124,6 +128,7 @@ describe Game do
       it 'dont changes ships' do
         expect {
           game.sink_the_ship nil
+          game.reload
         }.to_not change { game.ships }
       end
     end

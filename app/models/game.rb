@@ -54,6 +54,7 @@ class Game < ActiveRecord::Base
   def sink_the_ship(name)
     return unless name
 
+    ships = self.ships.dup
     ships.delete_at(ships.index(name) || ships.length)
     update_attributes ships: ships
   end
